@@ -1,0 +1,12 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=123
+  server:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+    - "8888:8080"
