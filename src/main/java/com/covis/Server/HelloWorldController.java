@@ -1,17 +1,16 @@
 package com.covis.Server;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
+import com.covis.api.HelloWorldResource;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloWorldController {
+public class HelloWorldController implements HelloWorldResource{
 
     public HelloWorldController(){
         //empty public contructor
     }
 
-    @GetMapping("/helloworld")
     public String helloWorldEndPoint(){
         return "Hello Covis";
     }

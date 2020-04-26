@@ -1,0 +1,3 @@
+[submodule "APSI-COVIS-API"]
+	path = APSI-COVIS-API
+	url = https://github.com/APSI-COVIS/APSI-COVIS-API.git
