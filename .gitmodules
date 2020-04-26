@@ -1,0 +1,3 @@
+[submodule "APSI-COVIS-API"]
+	path = APSI-COVIS-API
+	url = ./APSI-COVIS-API/
