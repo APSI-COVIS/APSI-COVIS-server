@@ -7,3 +7,10 @@ sudo: required
 
 services:
   - docker
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app:
+    master: covis-server-prod
+    ci-test: covis-server-test
