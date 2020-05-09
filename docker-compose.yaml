@@ -10,3 +10,9 @@ services:
       context: .
     ports:
     - "8888:8080"
+  data_loader:
+    build:
+      dockerfile: Dockerfile
+      context: ./data_loader
+    depends_on:
+      - db
