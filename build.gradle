@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'java-library'
 }
 
 group = 'com.covis'
@@ -16,12 +17,18 @@ configurations {
 }
 
 repositories {
+	maven{
+		url "https://repo.osgeo.org/repository/release/"
+	}
+
 	mavenCentral()
 }
 
 dependencies {
 	implementation project(':APSI-COVIS-API')
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	api group: 'org.geotools', name: 'gt-geojson', version: '23.0'
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
