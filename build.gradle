@@ -7,7 +7,7 @@ plugins {
 
 group = 'com.covis'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '1.9'
 
 configurations {
 	developmentOnly
@@ -28,6 +28,7 @@ repositories {
 dependencies {
 	implementation project(':APSI-COVIS-API')
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	api group: 'org.geotools', name: 'gt-geojson', version: '23.0'
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
 	jdbc 'org.postgresql:postgresql:42.2.5'

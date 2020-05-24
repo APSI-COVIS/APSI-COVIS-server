@@ -32,7 +32,6 @@ public class GeoJsonWorldCasesService {
     }
 
     public SimpleFeature createCountryCovidPoint(String countrySlug, int cases, double longitude, double latitude){
-
         SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(WORLD_CASE_TYPE);
         featureBuilder.add(cases);
         featureBuilder.add(countrySlug);
