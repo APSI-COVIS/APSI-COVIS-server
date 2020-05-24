@@ -2,6 +2,7 @@ package com.covis.Server;
 
 
 import com.covis.Server.DAO.MainRepository;
+import com.covis.Server.DAO.PopulationRepository;
 import com.covis.Server.Entities.DatabaseRecord;
 import com.covis.Server.country.controller.CountryCovidInformationController;
 import com.covis.Server.world.controller.WorldCovidInformationController;
@@ -28,7 +29,7 @@ public class HelloWorldController implements HelloWorldResource{
     WorldCovidInformationController worldCovidInformationController;
 
     @Autowired
-
+    PopulationRepository populationRepository;
 
 
     public HelloWorldController(){
@@ -51,7 +52,7 @@ public class HelloWorldController implements HelloWorldResource{
             list3 = countryCovidInformationController.listEpidemyDataInCountry(format.parse("2020-04-11"), format.parse("2020-05-16"), "Vietnam", CovidCasesType.DEATH);
             list4 = countryCovidInformationController.listEpidemyDataInCountry(format.parse("2020-04-20"), format.parse("2020-05-16"), "Poland", CovidCasesType.NEW);
             worldCovidInformationController.listWorldEpidemyInfoAsGeoJson(format.parse("2020-04-24"), CovidCasesType.RECOVERED);
-
+            populationRepository.findOneByCountrySlug("Poland");
         } catch (Exception e) {
             e.printStackTrace();
         }
