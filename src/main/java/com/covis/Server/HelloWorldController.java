@@ -45,7 +45,7 @@ public class HelloWorldController implements HelloWorldResource{
         List<CovidDailyCasesDto> list4;
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
+        //test
         try {
             list = countryCovidInformationController.listEpidemyDataInCountry(format.parse("2020-05-11"), format.parse("2020-05-16"), "Poland", CovidCasesType.ACTIVE);
             list2 = countryCovidInformationController.listEpidemyDataInCountry(format.parse("2020-05-09"), format.parse("2020-05-16"), "Poland", CovidCasesType.RECOVERED);
