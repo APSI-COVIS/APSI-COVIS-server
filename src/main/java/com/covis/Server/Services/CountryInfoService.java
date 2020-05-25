@@ -10,12 +10,8 @@ import com.covis.api.covid.CovidCasesType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +27,12 @@ public class CountryInfoService {
 
     }
 
-
+    private Date addOneDay(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, 1);
+        return c.getTime();
+    }
     public List<CovidDailyCasesDto> getDailyCases(Date from, Date to, String countrySlug, CovidCasesType type, Boolean isForecast){
         List<CovidDailyCasesDto> returnValue = null;
         switch (type){
@@ -100,22 +101,62 @@ public class CountryInfoService {
     }
 
     private List<CovidDailyCasesDto> getCountryDailyActiveForecast(Date from, Date to, String countrySlug){
-        return null;//TODO
-
+        //TODO implement forecast
+        List<DatabaseRecord> databaseRecord = mainRepository.findTop2ByCountryNameOrderByDateDesc(countrySlug);
+        List<CovidDailyCasesDto> returnList = new ArrayList<>();
+        DatabaseRecord record = databaseRecord.get(0);
+        int magicIncrement = 16;
+        int x = record.getConfirmed()-record.getDeaths()-record.getRecovered();
+        while(to.compareTo(from) > 0){
+            returnList.add(new CovidDailyCasesDto(from, x));
+            from = addOneDay(from);
+            x+=magicIncrement;
+        }
+        return returnList;
     }
 
     private List<CovidDailyCasesDto> getCountryDailyRecoveredForecast(Date from, Date to, String countrySlug){
-        return null;//TODO
+        //TODO implement forecast
+        List<DatabaseRecord> databaseRecordList = mainRepository.findTop2ByCountryNameOrderByDateDesc(countrySlug);
+        List<CovidDailyCasesDto> returnList = new ArrayList<>();
+        int magicIncrement = 1;
+        int x = databaseRecordList.get(0).getRecovered()-databaseRecordList.get(1).getRecovered();
+        while(to.compareTo(from) > 0){
+            returnList.add(new CovidDailyCasesDto(from, x));
+            from = addOneDay(from);
+            x+=magicIncrement;
+        }
+        return returnList;
 
     }
 
     public List<CovidDailyCasesDto> getCountryDailyDeathsForecast(Date from, Date to, String countrySlug){
-        return null;//TODO
+        //TODO implement forecast
+        List<DatabaseRecord> databaseRecordList = mainRepository.findTop2ByCountryNameOrderByDateDesc(countrySlug);
+        List<CovidDailyCasesDto> returnList = new ArrayList<>();
+        int magicIncrement = 40;
+        int x = databaseRecordList.get(0).getRecovered()-databaseRecordList.get(1).getRecovered();
+        while(to.compareTo(from) > 0){
+            returnList.add(new CovidDailyCasesDto(from, x));
+            from = addOneDay(from);
+            x+=magicIncrement;
+        }
+        return returnList;
 
     }
 
     private List<CovidDailyCasesDto> getCountryDailyConfirmedForecast(Date from, Date to, String countrySlug){
-        return null;//TODO
+        //TODO implement forecast
+        List<DatabaseRecord> databaseRecordList = mainRepository.findTop2ByCountryNameOrderByDateDesc(countrySlug);
+        List<CovidDailyCasesDto> returnList = new ArrayList<>();
+        int magicIncrement = 3;
+        int x = databaseRecordList.get(0).getRecovered()-databaseRecordList.get(1).getRecovered();
+        while(to.compareTo(from) > 0){
+            returnList.add(new CovidDailyCasesDto(from, x));
+            from = addOneDay(from);
+            x+=magicIncrement;
+        }
+        return returnList;
 
     }
 

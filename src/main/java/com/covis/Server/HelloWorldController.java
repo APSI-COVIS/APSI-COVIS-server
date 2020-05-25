@@ -52,7 +52,7 @@ public class HelloWorldController implements HelloWorldResource{
             list3 = countryCovidInformationController.listEpidemyDataInCountry(format.parse("2020-04-11"), format.parse("2020-05-16"), "Vietnam", CovidCasesType.DEATH);
             list4 = countryCovidInformationController.listEpidemyDataInCountry(format.parse("2020-04-20"), format.parse("2020-05-16"), "Poland", CovidCasesType.NEW);
             worldCovidInformationController.listWorldEpidemyInfoAsGeoJson(format.parse("2020-04-24"), CovidCasesType.RECOVERED);
-            populationRepository.findOneByCountrySlug("Poland");
+            countryCovidInformationController.listEpidemyForecastInCountry(format.parse("2020-05-26"), format.parse("2020-05-29"),"Poland",CovidCasesType.RECOVERED);
         } catch (Exception e) {
             e.printStackTrace();
         }
