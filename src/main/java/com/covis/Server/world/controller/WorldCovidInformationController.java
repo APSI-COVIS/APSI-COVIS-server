@@ -1,5 +1,6 @@
 package com.covis.Server.world.controller;
 
+import com.covis.Server.Services.WorldInfoService;
 import com.covis.Server.geojson.service.GeoJsonWorldCasesService;
 import com.covis.api.covid.CovidCasesType;
 import com.covis.api.world.WorldCovidInformationResource;
@@ -16,7 +17,7 @@ import java.util.stream.Stream;
 public class WorldCovidInformationController implements WorldCovidInformationResource{
 
     @Autowired
-    private GeoJsonWorldCasesService geoJsonWorldCasesService;
+    WorldInfoService worldInfoService;
     /**
      * Metoda zwraca nie kolekcję obiektów Dto, ale GeoJsona jako stringa
      * @param date Data dla której mają zostać zwrócone dane
@@ -25,18 +26,12 @@ public class WorldCovidInformationController implements WorldCovidInformationRes
      */
     @Override
     public String listWorldEpidemyInfoAsGeoJson(Date date, CovidCasesType type){
-        //sample data
-        SimpleFeature f1 = geoJsonWorldCasesService.createCountryCovidPoint("poland", 120, 12.5, -12.5),
-                f2 = geoJsonWorldCasesService.createCountryCovidPoint("germany", 1200, -40.5, 30.5);
-
         String geojson = "";
 
         try{
-            SimpleFeatureCollection covidCasesList = geoJsonWorldCasesService.createCovidCasesList(
-                    Stream.of(f1,f2).collect(Collectors.toList()));
-            geojson = geoJsonWorldCasesService.returnAsGeoJson(covidCasesList);
+            geojson = worldInfoService.getDailyWorldInfo(date, type);
         }catch (Exception e){
-
+            e.printStackTrace();
         }
 
         return geojson;

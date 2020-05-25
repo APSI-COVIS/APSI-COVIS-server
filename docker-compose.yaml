@@ -4,12 +4,16 @@ services:
     image: postgres
     environment:
       - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
   server:
     build:
       dockerfile: Dockerfile
       context: .
     ports:
     - "8888:8080"
+    depends_on:
+      - db
   data_loader:
     build:
       dockerfile: Dockerfile
