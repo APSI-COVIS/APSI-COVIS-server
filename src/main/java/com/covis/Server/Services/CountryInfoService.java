@@ -63,7 +63,11 @@ public class CountryInfoService {
         Optional<DatabaseRecord> tempRecord = mainRepository.findOneByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
 
         for(DatabaseRecord databaseRecord: mainRepository.findAllByCountryNameAndDateBetween(countrySlug, from, to)){
-            tempRecord.ifPresentOrElse(record -> returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), databaseRecord.getDeaths() - record.getDeaths())), () -> returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), 0)));
+            if(tempRecord.isPresent()){
+                returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), databaseRecord.getDeaths() - tempRecord.get().getDeaths()));
+            } else{
+                returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), 0));
+            }
             tempRecord = Optional.of(databaseRecord);
         }
         return returnList;
@@ -75,7 +79,12 @@ public class CountryInfoService {
         Optional<DatabaseRecord> tempRecord = mainRepository.findOneByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
 
         for(DatabaseRecord databaseRecord: mainRepository.findAllByCountryNameAndDateBetween(countrySlug, from, to)){
-            tempRecord.ifPresentOrElse(record -> returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), databaseRecord.getConfirmed() - record.getConfirmed())), () -> returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), 0)));
+            if(tempRecord.isPresent()){
+                returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), databaseRecord.getConfirmed() - tempRecord.get().getConfirmed()));
+            } else{
+                returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), 0));
+            }
+
             tempRecord = Optional.of(databaseRecord);
         }
         return returnList;
@@ -87,7 +96,11 @@ public class CountryInfoService {
         Optional<DatabaseRecord> tempRecord = mainRepository.findOneByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
 
         for(DatabaseRecord databaseRecord: mainRepository.findAllByCountryNameAndDateBetween(countrySlug, from, to)){
-            tempRecord.ifPresentOrElse(record -> returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), databaseRecord.getRecovered() - record.getRecovered())), () -> returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), 0)));
+            if(tempRecord.isPresent()){
+                returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), databaseRecord.getRecovered() - tempRecord.get().getRecovered()));
+            } else{
+                returnList.add(new CovidDailyCasesDto(databaseRecord.getDate(), 0));
+            }
             tempRecord = Optional.of(databaseRecord);
         }
         return returnList;
