@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface PopulationRepository extends CrudRepository<CountryPopulationInfo, Long> {
+public interface PopulationRepository extends CrudRepository<CountryPopulationInfo, String> {
 
     Optional<CountryPopulationInfo> findOneByCountrySlug(String countryName);
 
