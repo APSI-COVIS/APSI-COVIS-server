@@ -44,20 +44,9 @@ public class HelloWorldController implements HelloWorldResource{
         List<CovidDailyCasesDto> list3;
         List<CovidDailyCasesDto> list4;
 
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        //test
-        try {
-            list = countryCovidInformationController.listEpidemyDataInCountry(format.parse("2020-05-11"), format.parse("2020-05-16"), "Poland", CovidCasesType.ACTIVE);
-            list2 = countryCovidInformationController.listEpidemyDataInCountry(format.parse("2020-05-09"), format.parse("2020-05-16"), "Poland", CovidCasesType.RECOVERED);
-            list3 = countryCovidInformationController.listEpidemyDataInCountry(format.parse("2020-04-11"), format.parse("2020-05-16"), "Vietnam", CovidCasesType.DEATH);
-            list4 = countryCovidInformationController.listEpidemyDataInCountry(format.parse("2020-04-20"), format.parse("2020-05-16"), "Poland", CovidCasesType.NEW);
-            worldCovidInformationController.listWorldEpidemyInfoAsGeoJson(format.parse("2020-04-24"), CovidCasesType.RECOVERED);
-            countryCovidInformationController.listEpidemyForecastInCountry(format.parse("2020-05-26"), format.parse("2020-05-29"),"Poland",CovidCasesType.RECOVERED);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
 
-        return "Hello Covis";
+        return "Hello Covis v0.1";
     }
 
 }
