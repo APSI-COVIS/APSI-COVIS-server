@@ -10,20 +10,10 @@ import javax.persistence.Table;
 @Table(name="population", schema="public")
 public class CountryPopulationInfo {
     @Id
-    @Column(name="id")
-    private int id;
     @Column(name="country")
     private String countrySlug;
     @Column(name="population")
     private Integer population;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getCountrySlug() {
         return countrySlug;
