@@ -14,6 +14,4 @@ deploy:
   app:
     master: covis-server-prod
     ci-test: covis-server-test
-
-after_deploy:
-  - docker-compose up --build
+  run: "docker-compose up --build"
