@@ -8,6 +8,9 @@ sudo: required
 services:
   - docker
 
+script:
+  - docker-compose up --build
+
 deploy:
   provider: heroku
   api_key: $HEROKU_API_KEY
