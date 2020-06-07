@@ -1,0 +1,9 @@
+build:
+  docker:
+    server: Dockerfile
+    db: Dockerfile.postgres
+    data_loader: data_loader/Dockerfile
+release:
+  image: data_loader
+  command:
+    - python main.py
