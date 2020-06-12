@@ -2,19 +2,28 @@ version: "3"
 services:
   db:
     build:
-      dockerfile: Dockerfile.postgres
+      dockerfile: Dockerfile.db
       context: .
   server:
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.server
       context: .
     ports:
     - "8888:8080"
     depends_on:
       - db
-  data_loader:
+  loader:
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.loader
       context: ./data_loader
     depends_on:
       - db
+  ngrok:
+    image: shkoliar/ngrok
+    ports:
+      - 4551:4551
+    links:
+      - server
+    environment:
+      - DOMAIN=server
+      - PORT=8080
