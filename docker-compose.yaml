@@ -1,9 +1,11 @@
 version: "3"
 services:
   db:
-    build:
-      dockerfile: Dockerfile.db
-      context: .
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
   server:
     build:
       dockerfile: Dockerfile.server
@@ -12,12 +14,20 @@ services:
     - "8888:8080"
     depends_on:
       - db
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
   loader:
     build:
       dockerfile: Dockerfile.loader
       context: ./data_loader
     depends_on:
       - db
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
   ngrok:
     image: shkoliar/ngrok
     ports:
@@ -27,3 +37,4 @@ services:
     environment:
       - DOMAIN=server
       - PORT=8080
+

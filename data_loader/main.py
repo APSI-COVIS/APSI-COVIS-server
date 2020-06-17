@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 response = requests.get('https://datahub.io/JohnSnowLabs/population-figures-by-country/r/population-figures-by-country-csv.csv')
 file = io.StringIO(response.content.decode('utf-8'))
 pop_data = pandas.read_csv(file)
-population = pop_data[['Country_Code',pop_data.columns[-1]]]
+population = pop_data[['Country','Country_Code',pop_data.columns[-1]]]
 population.columns = ['country', 'population']
 
 data_raw = pandas.read_csv('https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv')
