@@ -8,7 +8,7 @@ response = requests.get('https://datahub.io/JohnSnowLabs/population-figures-by-c
 file = io.StringIO(response.content.decode('utf-8'))
 pop_data = pandas.read_csv(file)
 population = pop_data[['Country','Country_Code',pop_data.columns[-1]]]
-population.columns = ['country', 'population']
+population.columns = ['country','country_code', 'population']
 
 data_raw = pandas.read_csv('https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv')
 data_raw['Date'] = pandas.to_datetime(data_raw['Date'])
