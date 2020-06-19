@@ -9,11 +9,23 @@ import javax.persistence.Table;
 @Entity
 @Table(name="population", schema="public")
 public class CountryPopulationInfo {
-    @Id
     @Column(name="country")
-    private String countrySlug;
+    private String countryName;
     @Column(name="population")
     private Integer population;
+    @Id
+    @Column(name="country_code")
+    private String countrySlug;
+
+
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
 
     public String getCountrySlug() {
         return countrySlug;

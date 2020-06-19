@@ -33,7 +33,8 @@ public class CountryInfoService {
         c.add(Calendar.DATE, 1);
         return c.getTime();
     }
-    public List<CovidDailyCasesDto> getDailyCases(Date from, Date to, String countrySlug, CovidCasesType type, Boolean isForecast){
+    public List<CovidDailyCasesDto> getDailyCases(Date from, Date to, String countryCode, CovidCasesType type, Boolean isForecast){
+        String countrySlug = populationRepository.findOneByCountrySlug(countryCode).get().getCountryName();
         List<CovidDailyCasesDto> returnValue = null;
         switch (type){
             case DEATH:
