@@ -9,6 +9,7 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,7 +30,7 @@ public class WorldCovidInformationController implements WorldCovidInformationRes
         String geojson = "";
 
         try{
-            geojson = worldInfoService.getDailyWorldInfo(date, type);
+            geojson = worldInfoService.getDailyWorldInfo(LocalDate.from(date.toInstant()), type);
         }catch (Exception e){
             e.printStackTrace();
         }
