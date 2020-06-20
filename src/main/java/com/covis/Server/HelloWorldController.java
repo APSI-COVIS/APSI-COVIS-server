@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,8 +43,11 @@ public class HelloWorldController implements HelloWorldResource{
     @GetMapping("/helloworld")
     public String helloWorldEndPoint(){
 
-        SIRDModel model = new SIRDModel(0.001, 0.1, 0.015);
-        List<CovidDailyCasesDto> test = model.resolve((double) 30000000,(double)10, (double)1, (double)1, LocalDate.of(2020, 1,1), LocalDate.of(2020, 1, 20), CovidCasesType.ACTIVE);
+        SIRDModel model = new SIRDModel(0.5, 0.0714, 0.053);
+        List<CovidDailyCasesDto> testAcitve = model.resolve(BigDecimal.valueOf(30000),BigDecimal.valueOf(2), BigDecimal.valueOf(0), BigDecimal.valueOf(0), LocalDate.of(2020, 1,1), LocalDate.of(2020, 1, 20), CovidCasesType.ACTIVE);
+        List<CovidDailyCasesDto> testNew = model.resolve(BigDecimal.valueOf(30000),BigDecimal.valueOf(2), BigDecimal.valueOf(0), BigDecimal.valueOf(0), LocalDate.of(2020, 1,1), LocalDate.of(2020, 1, 20), CovidCasesType.NEW);
+        List<CovidDailyCasesDto> testRecovered = model.resolve(BigDecimal.valueOf(30000),BigDecimal.valueOf(2), BigDecimal.valueOf(0), BigDecimal.valueOf(0), LocalDate.of(2020, 1,1), LocalDate.of(2020, 1, 20), CovidCasesType.RECOVERED);
+        List<CovidDailyCasesDto> testDeath = model.resolve(BigDecimal.valueOf(30000),BigDecimal.valueOf(2), BigDecimal.valueOf(0), BigDecimal.valueOf(0), LocalDate.of(2020, 1,1), LocalDate.of(2020, 1, 20), CovidCasesType.DEATH);
 
         
 
