@@ -26,6 +26,11 @@ public class CountryInfoService {
     @Autowired
     PopulationRepository populationRepository;
 
+    private static Double beta = 0.0983;
+    private static Double gamma = 0.0714;
+    private static Double mi = 0.0531;
+    private static Double populationPercent = 0.7;
+
 
     public CountryInfoService(){
 
@@ -116,53 +121,53 @@ public class CountryInfoService {
 
     private List<CovidDailyCasesDto> getCountryDailyActiveForecast(LocalDate from, LocalDate to, String countryName){
         //TODO implement forecast
-        SIRDModel model = new SIRDModel(0.5, 0.0714, 0.053);
+        SIRDModel model = new SIRDModel(beta, gamma, mi);
         Optional<DatabaseRecord> lastRecordOpt = mainRepository.findFirstByCountryNameOrderByDateDesc(countryName);
         DatabaseRecord lastRecord= lastRecordOpt.get();
 
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
-        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.ACTIVE);
+        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*populationPercent), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.ACTIVE);
         return returnList;
     }
 
     private List<CovidDailyCasesDto> getCountryDailyRecoveredForecast(LocalDate from, LocalDate to, String countryName){
         //TODO implement forecast
-        SIRDModel model = new SIRDModel(0.5, 0.0714, 0.053);
+        SIRDModel model = new SIRDModel(beta, gamma, mi);
         Optional<DatabaseRecord> lastRecordOpt = mainRepository.findFirstByCountryNameOrderByDateDesc(countryName);
         DatabaseRecord lastRecord= lastRecordOpt.get();
 
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
-        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.RECOVERED);
+        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*populationPercent), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.RECOVERED);
         return returnList;
     }
 
     public List<CovidDailyCasesDto> getCountryDailyDeathsForecast(LocalDate from, LocalDate to, String countryName){
         //TODO implement forecast
-        SIRDModel model = new SIRDModel(0.5, 0.0714, 0.053);
+        SIRDModel model = new SIRDModel(beta, gamma, mi);
         Optional<DatabaseRecord> lastRecordOpt = mainRepository.findFirstByCountryNameOrderByDateDesc(countryName);
         DatabaseRecord lastRecord= lastRecordOpt.get();
 
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
-        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.RECOVERED);
+        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*populationPercent), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.DEATH);
         return returnList;
 
     }
 
     private List<CovidDailyCasesDto> getCountryDailyConfirmedForecast(LocalDate from, LocalDate to, String countryName){
         //TODO implement forecast
-        SIRDModel model = new SIRDModel(0.5, 0.0714, 0.053);
+        SIRDModel model = new SIRDModel(beta, gamma, mi);
         Optional<DatabaseRecord> lastRecordOpt = mainRepository.findFirstByCountryNameOrderByDateDesc(countryName);
         DatabaseRecord lastRecord= lastRecordOpt.get();
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
-        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.NEW);
+        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*populationPercent), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.NEW);
         return returnList;
     }
 

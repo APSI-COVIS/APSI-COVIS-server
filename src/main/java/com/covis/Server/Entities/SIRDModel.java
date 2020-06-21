@@ -35,9 +35,9 @@ public class SIRDModel {
             tomorrowR = todayR.add(BigDecimal.valueOf(gamma).multiply(todayI));
             tomorrowD = todayD.add(BigDecimal.valueOf(mi).multiply(todayI));
             dailyActive = tomorrowI.intValue();
-            dailyInfected = tomorrowI.subtract(todayI).intValue();
-            dailyRecovered = tomorrowR.subtract(todayR).intValue();
-            dailyDeaths = tomorrowD.subtract(todayD).intValue();
+            dailyInfected = BigDecimal.valueOf(beta).multiply(todayS.multiply(todayI)).setScale(4,RoundingMode.CEILING).divide(N, RoundingMode.HALF_DOWN).intValue();
+            dailyRecovered = BigDecimal.valueOf(gamma).multiply(todayI).intValue();
+            dailyDeaths = BigDecimal.valueOf(mi).multiply(todayI).intValue();
             switch (type){
                 case NEW:
                     toPut = dailyInfected;
