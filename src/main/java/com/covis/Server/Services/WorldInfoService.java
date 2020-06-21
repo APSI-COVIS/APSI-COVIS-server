@@ -52,7 +52,7 @@ public class WorldInfoService {
                     Optional<DatabaseRecord> before;
                     do{
                         before = mainRepository.findOneByCountryNameAndDate(elem.getCountryName(), date.minusDays(i++));
-                    }while (!before.isPresent() || before.get().getConfirmed() == null);
+                    }while (!before.isPresent() || !Optional.ofNullable(before.get().getConfirmed()).isPresent() );
                     Integer valueBefore = before.get().getConfirmed();
                     Integer value = Optional.ofNullable(elem.getConfirmed()).orElse(valueBefore);
                     return geoJsonWorldCasesService.createCountryCovidPoint(elem.getCountryName(),value - valueBefore,elem.getLongitude(),elem.getLatitude());
