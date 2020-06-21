@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class WorldInfoService {
     private GeoJsonWorldCasesService geoJsonWorldCasesService;
 
 
-    public String getDailyWorldInfo(Date date, CovidCasesType type) throws IOException{
+    public String getDailyWorldInfo(LocalDate date, CovidCasesType type) throws IOException{
 
         List<DatabaseRecord> records = mainRepository.findAllByDate(date);
         SimpleFeatureCollection covidCasesList = null;
@@ -43,6 +44,13 @@ public class WorldInfoService {
                 covidCasesList = geoJsonWorldCasesService.createCovidCasesList(records.stream().map((elem) -> {
                     Optional<Integer> value = Optional.ofNullable(elem.getRecovered());
                     return geoJsonWorldCasesService.createCountryCovidPoint(elem.getCountryName(),value.orElse(-1),elem.getLongitude(),elem.getLatitude());
+                }).collect(Collectors.toList()));
+                break;
+            case NEW:
+                covidCasesList = geoJsonWorldCasesService.createCovidCasesList(records.stream().map((elem) -> {
+                    Optional<Integer> value = Optional.ofNullable(elem.getConfirmed());
+                    Integer valueYesterday = mainRepository.findOneByCountryNameAndDate(elem.getCountryName(), date.minusDays(1)).get().getConfirmed();
+                    return geoJsonWorldCasesService.createCountryCovidPoint(elem.getCountryName(),value.get() - valueYesterday,elem.getLongitude(),elem.getLatitude());
                 }).collect(Collectors.toList()));
                 break;
             case ACTIVE:

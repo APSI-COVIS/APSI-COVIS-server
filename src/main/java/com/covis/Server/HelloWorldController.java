@@ -4,6 +4,7 @@ package com.covis.Server;
 import com.covis.Server.DAO.MainRepository;
 import com.covis.Server.DAO.PopulationRepository;
 import com.covis.Server.Entities.DatabaseRecord;
+import com.covis.Server.Entities.SIRDModel;
 import com.covis.Server.country.controller.CountryCovidInformationController;
 import com.covis.Server.world.controller.WorldCovidInformationController;
 import com.covis.api.CovidCaseDto;
@@ -14,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -39,14 +42,12 @@ public class HelloWorldController implements HelloWorldResource{
     private MainRepository mainRepository;
     @GetMapping("/helloworld")
     public String helloWorldEndPoint(){
-        List<CovidDailyCasesDto> list;
-        List<CovidDailyCasesDto> list2;
-        List<CovidDailyCasesDto> list3;
-        List<CovidDailyCasesDto> list4;
+
+        SIRDModel model = new SIRDModel(0.5, 0.0714, 0.053);
 
         
 
-        return "Hello Covis v0.1";
+        return "Hello Covis v0.3";
     }
 
 }

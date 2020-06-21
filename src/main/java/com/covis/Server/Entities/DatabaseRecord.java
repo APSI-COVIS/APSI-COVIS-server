@@ -2,7 +2,7 @@ package com.covis.Server.Entities;
 
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="covid", schema = "public")
@@ -13,8 +13,7 @@ public class DatabaseRecord {
     @Column(name = "Country/Region")
     private String countryName;
     @Column(name = "Date")
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
     @Column(name = "Lat")
     private double latitude;
     @Column(name = "Long")
@@ -42,11 +41,11 @@ public class DatabaseRecord {
         this.countryName = countryName;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

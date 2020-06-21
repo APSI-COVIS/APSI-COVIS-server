@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface PopulationRepository extends CrudRepository<CountryPopulationInfo, String> {
 
-    Optional<CountryPopulationInfo> findOneByCountrySlug(String countryName);
+    Optional<CountryPopulationInfo> findOneByCountrySlug(String countrySlug);
+    Optional<CountryPopulationInfo> findOneByCountryName(String countryName);
 
 }
