@@ -29,7 +29,7 @@ public class CountryInfoService {
     private static Double beta = 0.0983;
     private static Double gamma = 0.0714;
     private static Double mi = 0.0531;
-    private static Double populationPercent = 0.7;
+    private static Double populationPercent = 0.4;
 
 
     public CountryInfoService(){
