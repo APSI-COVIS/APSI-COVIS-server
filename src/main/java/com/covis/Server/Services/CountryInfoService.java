@@ -40,7 +40,7 @@ public class CountryInfoService {
     public List<CovidDailyCasesDto> getDailyCases(Date fromDate, Date toDate, String countryCode, CovidCasesType type, Boolean isForecast){
         String countrySlug = populationRepository.findOneByCountrySlug(countryCode).get().getCountryName();
         LocalDate from = LocalDate.ofInstant(fromDate.toInstant(), ZoneId.of("Europe/Warsaw"));
-        LocalDate to = LocalDate.ofInstant(toDate.toInstant(), ZoneId.of("Europe/Warsaw")).plusDays(1);
+        LocalDate to = LocalDate.ofInstant(toDate.toInstant(), ZoneId.of("Europe/Warsaw"));
         List<CovidDailyCasesDto> returnValue = null;
         switch (type){
             case DEATH:
