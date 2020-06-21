@@ -47,7 +47,7 @@ public class HelloWorldController implements HelloWorldResource{
 
         
 
-        return "Hello Covis v0.3";
+        return "Hello Covis v0.4";
     }
 
 }

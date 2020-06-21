@@ -31,12 +31,6 @@ public class CountryInfoService {
 
     }
 
-    private Date addOneDay(Date date){
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.add(Calendar.DATE, 1);
-        return c.getTime();
-    }
     public List<CovidDailyCasesDto> getDailyCases(Date fromDate, Date toDate, String countryCode, CovidCasesType type, Boolean isForecast){
         String countrySlug = populationRepository.findOneByCountrySlug(countryCode).get().getCountryName();
         LocalDate from = LocalDate.ofInstant(fromDate.toInstant(), ZoneId.of("Europe/Warsaw"));
@@ -71,7 +65,7 @@ public class CountryInfoService {
 
         for(DatabaseRecord databaseRecord: mainRepository.findAllByCountryNameAndDateBetweenOrderByDateAsc(countrySlug, from, to)){
             if(tempRecord.isPresent()){
-                returnList.add(new CovidDailyCasesDto(java.sql.Date.valueOf(databaseRecord.getDate()), databaseRecord.getDeaths() - tempRecord.get().getDeaths()));
+                returnList.add(new CovidDailyCasesDto(java.sql.Date.valueOf(databaseRecord.getDate()), Optional.ofNullable(databaseRecord.getDeaths()).orElse(0) - Optional.ofNullable(tempRecord.get().getDeaths()).orElse(0)));
             } else{
                 returnList.add(new CovidDailyCasesDto(java.sql.Date.valueOf(databaseRecord.getDate()), 0));
             }
@@ -87,7 +81,7 @@ public class CountryInfoService {
 
         for(DatabaseRecord databaseRecord: mainRepository.findAllByCountryNameAndDateBetweenOrderByDateAsc(countrySlug, from, to)){
             if(tempRecord.isPresent()){
-                returnList.add(new CovidDailyCasesDto(java.sql.Date.valueOf(databaseRecord.getDate()), databaseRecord.getConfirmed() - tempRecord.get().getConfirmed()));
+                returnList.add(new CovidDailyCasesDto(java.sql.Date.valueOf(databaseRecord.getDate()), Optional.ofNullable(databaseRecord.getConfirmed()).orElse(0) - Optional.ofNullable(tempRecord.get().getConfirmed()).orElse(0)));
             } else{
                 returnList.add(new CovidDailyCasesDto(java.sql.Date.valueOf(databaseRecord.getDate()), 0));
             }
@@ -104,7 +98,7 @@ public class CountryInfoService {
 
         for(DatabaseRecord databaseRecord: mainRepository.findAllByCountryNameAndDateBetweenOrderByDateAsc(countrySlug, from, to)){
             if(tempRecord.isPresent()){
-                returnList.add(new CovidDailyCasesDto(java.sql.Date.valueOf(databaseRecord.getDate()), databaseRecord.getRecovered() - tempRecord.get().getRecovered()));
+                returnList.add(new CovidDailyCasesDto(java.sql.Date.valueOf(databaseRecord.getDate()), Optional.ofNullable(databaseRecord.getRecovered()).orElse(0) - Optional.ofNullable(tempRecord.get().getRecovered()).orElse(0)));
             } else{
                 returnList.add(new CovidDailyCasesDto(java.sql.Date.valueOf(databaseRecord.getDate()), 0));
             }
@@ -116,7 +110,7 @@ public class CountryInfoService {
     private List<CovidDailyCasesDto> getCountryDailyActive(LocalDate from, LocalDate to, String countrySlug){
 
         return mainRepository.findAllByCountryNameAndDateBetweenOrderByDateAsc(countrySlug,from,to).stream().map(
-                elem -> new CovidDailyCasesDto(java.sql.Date.valueOf(elem.getDate()), elem.getConfirmed()-elem.getDeaths()-elem.getRecovered())
+                elem -> new CovidDailyCasesDto(java.sql.Date.valueOf(elem.getDate()), Optional.ofNullable(elem.getConfirmed()).orElse(0)-Optional.ofNullable(elem.getDeaths()).orElse(0)-Optional.ofNullable(elem.getRecovered()).orElse(0))
         ).collect(Collectors.toList());
     }
 

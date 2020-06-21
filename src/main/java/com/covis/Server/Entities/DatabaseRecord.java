@@ -2,7 +2,9 @@ package com.covis.Server.Entities;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @Table(name="covid", schema = "public")
@@ -70,7 +72,7 @@ public class DatabaseRecord {
     }
 
     public void setConfirmed(Integer confirmed) {
-        this.confirmed = confirmed;
+        this.confirmed = Optional.ofNullable(confirmed).orElse(0);
     }
 
     public Integer getRecovered() {
@@ -78,7 +80,7 @@ public class DatabaseRecord {
     }
 
     public void setRecovered(Integer recovered) {
-        this.recovered = recovered;
+        this.recovered = Optional.ofNullable(recovered).orElse(0);
     }
 
     public Integer getDeaths() {
@@ -86,6 +88,6 @@ public class DatabaseRecord {
     }
 
     public void setDeaths(Integer deaths) {
-        this.deaths = deaths;
+        this.deaths = Optional.ofNullable(deaths).orElse(0);
     }
 }

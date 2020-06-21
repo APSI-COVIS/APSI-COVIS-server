@@ -48,17 +48,22 @@ public class WorldInfoService {
                 break;
             case NEW:
                 covidCasesList = geoJsonWorldCasesService.createCovidCasesList(records.stream().map((elem) -> {
-                    Optional<Integer> value = Optional.ofNullable(elem.getConfirmed());
-                    Integer valueYesterday = mainRepository.findOneByCountryNameAndDate(elem.getCountryName(), date.minusDays(1)).get().getConfirmed();
-                    return geoJsonWorldCasesService.createCountryCovidPoint(elem.getCountryName(),value.get() - valueYesterday,elem.getLongitude(),elem.getLatitude());
+                    int i =1;
+                    Optional<DatabaseRecord> before;
+                    do{
+                        before = mainRepository.findOneByCountryNameAndDate(elem.getCountryName(), date.minusDays(i++));
+                    }while (!before.isPresent() || before.get().getConfirmed() == null);
+                    Integer valueBefore = before.get().getConfirmed();
+                    Integer value = Optional.ofNullable(elem.getConfirmed()).orElse(valueBefore);
+                    return geoJsonWorldCasesService.createCountryCovidPoint(elem.getCountryName(),value - valueBefore,elem.getLongitude(),elem.getLatitude());
                 }).collect(Collectors.toList()));
                 break;
             case ACTIVE:
                 covidCasesList = geoJsonWorldCasesService.createCovidCasesList(records.stream().map((elem) -> {
-                    Optional<Integer> confirmed = Optional.ofNullable(elem.getConfirmed());
-                    Optional<Integer> deaths = Optional.ofNullable(elem.getDeaths());
-                    Optional<Integer> recovered = Optional.ofNullable(elem.getRecovered());
-                    Integer value = confirmed.orElse(-1) - deaths.orElse(-1) - recovered.orElse(-1);
+                    Integer confirmed = Optional.ofNullable(elem.getConfirmed()).orElse(0);
+                    Integer deaths = Optional.ofNullable(elem.getDeaths()).orElse(0);
+                    Integer recovered = Optional.ofNullable(elem.getRecovered()).orElse(0);
+                    Integer value = confirmed - deaths - recovered;
                     return geoJsonWorldCasesService.createCountryCovidPoint(elem.getCountryName(),value,elem.getLongitude(),elem.getLatitude());
                 }).collect(Collectors.toList()));
                 break;
