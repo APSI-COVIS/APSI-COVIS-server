@@ -26,10 +26,10 @@ public class CountryInfoService {
     @Autowired
     PopulationRepository populationRepository;
 
-    private static Double beta = 0.0983;
-    private static Double gamma = 0.0714;
+    private static Double beta = 0.0043;
+    private static Double gamma = 0.0716;
     private static Double mi = 0.0531;
-    private static Double populationPercent = 0.4;
+    private static Double populationPercent = 0.35;
 
 
     public CountryInfoService(){
