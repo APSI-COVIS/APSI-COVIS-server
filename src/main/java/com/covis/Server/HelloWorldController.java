@@ -44,10 +44,6 @@ public class HelloWorldController implements HelloWorldResource{
     public String helloWorldEndPoint(){
 
         SIRDModel model = new SIRDModel(0.5, 0.0714, 0.053);
-        List<CovidDailyCasesDto> testAcitve = model.resolve(BigDecimal.valueOf(30000),BigDecimal.valueOf(2), BigDecimal.valueOf(0), BigDecimal.valueOf(0), LocalDate.of(2020, 1,1), LocalDate.of(2020, 1, 20), CovidCasesType.ACTIVE);
-        List<CovidDailyCasesDto> testNew = model.resolve(BigDecimal.valueOf(30000),BigDecimal.valueOf(2), BigDecimal.valueOf(0), BigDecimal.valueOf(0), LocalDate.of(2020, 1,1), LocalDate.of(2020, 1, 20), CovidCasesType.NEW);
-        List<CovidDailyCasesDto> testRecovered = model.resolve(BigDecimal.valueOf(30000),BigDecimal.valueOf(2), BigDecimal.valueOf(0), BigDecimal.valueOf(0), LocalDate.of(2020, 1,1), LocalDate.of(2020, 1, 20), CovidCasesType.RECOVERED);
-        List<CovidDailyCasesDto> testDeath = model.resolve(BigDecimal.valueOf(30000),BigDecimal.valueOf(2), BigDecimal.valueOf(0), BigDecimal.valueOf(0), LocalDate.of(2020, 1,1), LocalDate.of(2020, 1, 20), CovidCasesType.DEATH);
 
         
 

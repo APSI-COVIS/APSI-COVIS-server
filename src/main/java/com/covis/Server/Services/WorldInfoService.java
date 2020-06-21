@@ -52,6 +52,7 @@ public class WorldInfoService {
                     Integer valueYesterday = mainRepository.findOneByCountryNameAndDate(elem.getCountryName(), date.minusDays(1)).get().getConfirmed();
                     return geoJsonWorldCasesService.createCountryCovidPoint(elem.getCountryName(),value.get() - valueYesterday,elem.getLongitude(),elem.getLatitude());
                 }).collect(Collectors.toList()));
+                break;
             case ACTIVE:
                 covidCasesList = geoJsonWorldCasesService.createCovidCasesList(records.stream().map((elem) -> {
                     Optional<Integer> confirmed = Optional.ofNullable(elem.getConfirmed());

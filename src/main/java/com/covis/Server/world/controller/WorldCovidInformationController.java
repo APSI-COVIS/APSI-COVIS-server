@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,7 +31,7 @@ public class WorldCovidInformationController implements WorldCovidInformationRes
         String geojson = "";
 
         try{
-            geojson = worldInfoService.getDailyWorldInfo(LocalDate.from(date.toInstant()), type);
+            geojson = worldInfoService.getDailyWorldInfo(LocalDate.ofInstant(date.toInstant(), ZoneId.of("Europe/Warsaw")), type);
         }catch (Exception e){
             e.printStackTrace();
         }

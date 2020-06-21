@@ -65,7 +65,7 @@ public class CountryInfoService {
     }
 
     private List<CovidDailyCasesDto> getCountryDailyDeaths(LocalDate from, LocalDate to, String countrySlug){
-        LocalDate oneDayBeforeFrom = from.minus(Duration.ofDays(1));
+        LocalDate oneDayBeforeFrom = from.minusDays(1);
         List<CovidDailyCasesDto> returnList = new ArrayList<>();
         Optional<DatabaseRecord> tempRecord = mainRepository.findOneByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
 
@@ -81,7 +81,7 @@ public class CountryInfoService {
     }
 
     private List<CovidDailyCasesDto> getCountryDailyConfirmed(LocalDate from, LocalDate to, String countrySlug){
-        LocalDate oneDayBeforeFrom = from.minus(Duration.ofDays(1));
+        LocalDate oneDayBeforeFrom = from.minusDays(1);
         List<CovidDailyCasesDto> returnList = new ArrayList<>();
         Optional<DatabaseRecord> tempRecord = mainRepository.findOneByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
 
@@ -98,7 +98,7 @@ public class CountryInfoService {
     }
 
     private List<CovidDailyCasesDto> getCountryDailyRecovered(LocalDate from, LocalDate to, String countrySlug){
-        LocalDate oneDayBeforeFrom = from.minus(Duration.ofDays(1));
+        LocalDate oneDayBeforeFrom = from.minusDays(1);
         List<CovidDailyCasesDto> returnList = new ArrayList<>();
         Optional<DatabaseRecord> tempRecord = mainRepository.findOneByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
 
@@ -129,7 +129,7 @@ public class CountryInfoService {
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
-        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,toLocalDate, CovidCasesType.ACTIVE);
+        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.ACTIVE);
         return returnList;
     }
 
@@ -142,7 +142,7 @@ public class CountryInfoService {
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
-        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,toLocalDate, CovidCasesType.RECOVERED);
+        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.RECOVERED);
         return returnList;
     }
 
@@ -155,7 +155,7 @@ public class CountryInfoService {
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
-        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,toLocalDate, CovidCasesType.RECOVERED);
+        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.RECOVERED);
         return returnList;
 
     }
@@ -168,7 +168,7 @@ public class CountryInfoService {
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
-        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,toLocalDate, CovidCasesType.NEW);
+        List<CovidDailyCasesDto> returnList = model.resolve(BigDecimal.valueOf(population.get().getPopulation()*0.8), BigDecimal.valueOf(lastRecord.getConfirmed()), BigDecimal.valueOf(lastRecord.getRecovered()), BigDecimal.valueOf(lastRecord.getDeaths()),dateAfterLast,from,toLocalDate, CovidCasesType.NEW);
         return returnList;
     }
 
