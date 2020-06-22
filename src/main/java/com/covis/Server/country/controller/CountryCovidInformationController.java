@@ -45,8 +45,8 @@ public class CountryCovidInformationController implements CountryCovidInformatio
     }
 
     @Override
-    public CountryPopulationDto getCountryPopulation(Date dateWhen, String countrySlug){
-        return new CountryPopulationDto(countrySlug, countryInfoService.getPopulation(dateWhen,countrySlug));
+    public CountryPopulationDto getCountryPopulation(Date dateWhen, String countryName){
+        return new CountryPopulationDto(countryName, countryInfoService.getPopulation(dateWhen,countryName));
     }
 
 }

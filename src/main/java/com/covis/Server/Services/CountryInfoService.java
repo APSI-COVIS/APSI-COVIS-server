@@ -26,18 +26,20 @@ public class CountryInfoService {
     @Autowired
     PopulationRepository populationRepository;
 
+
     private static Double beta = 0.0043;
     private static Double gamma = 0.0716;
     private static Double mi = 0.0531;
     private static Double populationPercent = 0.35;
 
 
+
     public CountryInfoService(){
 
     }
 
-    public List<CovidDailyCasesDto> getDailyCases(Date fromDate, Date toDate, String countryCode, CovidCasesType type, Boolean isForecast){
-        String countrySlug = populationRepository.findOneByCountrySlug(countryCode).get().getCountryName();
+    public List<CovidDailyCasesDto> getDailyCases(Date fromDate, Date toDate, String countrySlug, CovidCasesType type, Boolean isForecast){
+
         LocalDate from = LocalDate.ofInstant(fromDate.toInstant(), ZoneId.of("Europe/Warsaw"));
         LocalDate to = LocalDate.ofInstant(toDate.toInstant(), ZoneId.of("Europe/Warsaw"));
         List<CovidDailyCasesDto> returnValue = null;
@@ -58,8 +60,8 @@ public class CountryInfoService {
         return returnValue;
     }
 
-    public Integer getPopulation(Date date, String countrySlug){
-        Optional<CountryPopulationInfo> x = populationRepository.findOneByCountrySlug(countrySlug);
+    public Integer getPopulation(Date date, String countryName){
+        Optional<CountryPopulationInfo> x = populationRepository.findOneByCountryName(countryName);
         return x.isPresent() ? x.get().getPopulation() : -1;
     }
 
