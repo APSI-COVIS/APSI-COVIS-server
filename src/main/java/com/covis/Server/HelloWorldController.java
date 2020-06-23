@@ -43,13 +43,8 @@ public class HelloWorldController implements HelloWorldResource{
     @GetMapping("/helloworld")
     public String helloWorldEndPoint(){
 
-        SIRDModel model = new SIRDModel(0.5, 0.0714, 0.053);
 
-        
-
-      
-
-        return "Hello Covis v0.6";
+        return "Hello Covis v0.7";
 
     }
 

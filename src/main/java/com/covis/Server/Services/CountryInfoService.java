@@ -30,7 +30,7 @@ public class CountryInfoService {
     private static Double beta = 0.0043;
     private static Double gamma = 0.0716;
     private static Double mi = 0.0531;
-    private static Double populationPercent = 0.35;
+    private static Double populationPercent = 1.0;
 
 
 
@@ -68,7 +68,7 @@ public class CountryInfoService {
     private List<CovidDailyCasesDto> getCountryDailyDeaths(LocalDate from, LocalDate to, String countrySlug){
         LocalDate oneDayBeforeFrom = from.minusDays(1);
         List<CovidDailyCasesDto> returnList = new ArrayList<>();
-        Optional<DatabaseRecord> tempRecord = mainRepository.findOneByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
+        Optional<DatabaseRecord> tempRecord = mainRepository.findFirstByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
 
         for(DatabaseRecord databaseRecord: mainRepository.findAllByCountryNameAndDateBetweenOrderByDateAsc(countrySlug, from, to)){
             if(tempRecord.isPresent()){
@@ -84,7 +84,7 @@ public class CountryInfoService {
     private List<CovidDailyCasesDto> getCountryDailyConfirmed(LocalDate from, LocalDate to, String countrySlug){
         LocalDate oneDayBeforeFrom = from.minusDays(1);
         List<CovidDailyCasesDto> returnList = new ArrayList<>();
-        Optional<DatabaseRecord> tempRecord = mainRepository.findOneByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
+        Optional<DatabaseRecord> tempRecord = mainRepository.findFirstByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
 
         for(DatabaseRecord databaseRecord: mainRepository.findAllByCountryNameAndDateBetweenOrderByDateAsc(countrySlug, from, to)){
             if(tempRecord.isPresent()){
@@ -101,7 +101,7 @@ public class CountryInfoService {
     private List<CovidDailyCasesDto> getCountryDailyRecovered(LocalDate from, LocalDate to, String countrySlug){
         LocalDate oneDayBeforeFrom = from.minusDays(1);
         List<CovidDailyCasesDto> returnList = new ArrayList<>();
-        Optional<DatabaseRecord> tempRecord = mainRepository.findOneByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
+        Optional<DatabaseRecord> tempRecord = mainRepository.findFirstByCountryNameAndDate(countrySlug, oneDayBeforeFrom);
 
         for(DatabaseRecord databaseRecord: mainRepository.findAllByCountryNameAndDateBetweenOrderByDateAsc(countrySlug, from, to)){
             if(tempRecord.isPresent()){
@@ -123,10 +123,12 @@ public class CountryInfoService {
 
     private List<CovidDailyCasesDto> getCountryDailyActiveForecast(LocalDate from, LocalDate to, String countryName){
         //TODO implement forecast
-        SIRDModel model = new SIRDModel(beta, gamma, mi);
         Optional<DatabaseRecord> lastRecordOpt = mainRepository.findFirstByCountryNameOrderByDateDesc(countryName);
         DatabaseRecord lastRecord= lastRecordOpt.get();
-
+        List<DatabaseRecord> fromForecast = mainRepository.findAllByCountryNameAndDateAfterOrderByDateAsc(countryName, lastRecord.getDate().minusDays(14));
+        SIRDModel.fixValues(fromForecast);
+        List<BigDecimal> variables = SIRDModel.calculateModelVariables(fromForecast);
+        SIRDModel model = new SIRDModel(variables.get(0), variables.get(1), variables.get(2));
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
@@ -136,10 +138,13 @@ public class CountryInfoService {
 
     private List<CovidDailyCasesDto> getCountryDailyRecoveredForecast(LocalDate from, LocalDate to, String countryName){
         //TODO implement forecast
-        SIRDModel model = new SIRDModel(beta, gamma, mi);
+
         Optional<DatabaseRecord> lastRecordOpt = mainRepository.findFirstByCountryNameOrderByDateDesc(countryName);
         DatabaseRecord lastRecord= lastRecordOpt.get();
-
+        List<DatabaseRecord> fromForecast = mainRepository.findAllByCountryNameAndDateAfterOrderByDateAsc(countryName, lastRecord.getDate().minusDays(14));
+        SIRDModel.fixValues(fromForecast);
+        List<BigDecimal> variables = SIRDModel.calculateModelVariables(fromForecast);
+        SIRDModel model = new SIRDModel(variables.get(0), variables.get(1), variables.get(2));
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
@@ -149,10 +154,13 @@ public class CountryInfoService {
 
     public List<CovidDailyCasesDto> getCountryDailyDeathsForecast(LocalDate from, LocalDate to, String countryName){
         //TODO implement forecast
-        SIRDModel model = new SIRDModel(beta, gamma, mi);
+
         Optional<DatabaseRecord> lastRecordOpt = mainRepository.findFirstByCountryNameOrderByDateDesc(countryName);
         DatabaseRecord lastRecord= lastRecordOpt.get();
-
+        List<DatabaseRecord> fromForecast = mainRepository.findAllByCountryNameAndDateAfterOrderByDateAsc(countryName, lastRecord.getDate().minusDays(14));
+        SIRDModel.fixValues(fromForecast);
+        List<BigDecimal> variables = SIRDModel.calculateModelVariables(fromForecast);
+        SIRDModel model = new SIRDModel(variables.get(0), variables.get(1), variables.get(2));
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);
@@ -163,9 +171,12 @@ public class CountryInfoService {
 
     private List<CovidDailyCasesDto> getCountryDailyConfirmedForecast(LocalDate from, LocalDate to, String countryName){
         //TODO implement forecast
-        SIRDModel model = new SIRDModel(beta, gamma, mi);
         Optional<DatabaseRecord> lastRecordOpt = mainRepository.findFirstByCountryNameOrderByDateDesc(countryName);
         DatabaseRecord lastRecord= lastRecordOpt.get();
+        List<DatabaseRecord> fromForecast = mainRepository.findAllByCountryNameAndDateAfterOrderByDateAsc(countryName, lastRecord.getDate().minusDays(14));
+        SIRDModel.fixValues(fromForecast);
+        List<BigDecimal> variables = SIRDModel.calculateModelVariables(fromForecast);
+        SIRDModel model = new SIRDModel(variables.get(0), variables.get(1), variables.get(2));
         LocalDate dateAfterLast = lastRecord.getDate().plusDays(1);
         LocalDate toLocalDate = to;
         Optional<CountryPopulationInfo> population = populationRepository.findOneByCountryName(countryName);

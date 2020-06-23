@@ -50,11 +50,8 @@ public class WorldInfoService {
                 covidCasesList = geoJsonWorldCasesService.createCovidCasesList(records.stream().map((elem) -> {
                     int i =1;
                     Optional<DatabaseRecord> before;
-                    do{
-                        before = mainRepository.findOneByCountryNameAndDate(elem.getCountryName(), date.minusDays(i++));
-                    }while (!before.isPresent() || !Optional.ofNullable(before.get().getConfirmed()).isPresent() );
-
-                    Integer valueBefore = before.get().getConfirmed();
+                    before = mainRepository.findOneByCountryNameAndProvinceAndDate(elem.getCountryName(), elem.getProvince(),date.minusDays(i));
+                    Integer valueBefore = before.isPresent() ? (Optional.ofNullable(before.get().getConfirmed()).isPresent() ? before.get().getConfirmed() : 0) : 0;
                     Integer value = Optional.ofNullable(elem.getConfirmed()).orElse(valueBefore);
                     return geoJsonWorldCasesService.createCountryCovidPoint(elem.getCountryName(),value - valueBefore,elem.getLongitude(),elem.getLatitude());
                 }).collect(Collectors.toList()));

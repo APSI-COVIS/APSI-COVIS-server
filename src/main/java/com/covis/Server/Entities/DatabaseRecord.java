@@ -14,6 +14,8 @@ public class DatabaseRecord {
     private int id;
     @Column(name = "Country/Region")
     private String countryName;
+    @Column(name = "Province/State")
+    private String province;
     @Column(name = "Date")
     private LocalDate date;
     @Column(name = "Lat")
@@ -26,6 +28,14 @@ public class DatabaseRecord {
     private Integer recovered;
     @Column(name = "Deaths")
     private Integer deaths;
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
 
     public int getId() {
         return id;

@@ -16,9 +16,10 @@ public interface MainRepository extends CrudRepository<DatabaseRecord, Integer>,
 
     List<DatabaseRecord> findAllByCountryNameAndDateBetweenOrderByDateAsc(String countryName, LocalDate from, LocalDate to);
 
-    Optional<DatabaseRecord> findOneByCountryNameAndDate(String countryName, LocalDate date);
-
+    Optional<DatabaseRecord> findFirstByCountryNameAndDate(String countryName, LocalDate date);
+    Optional<DatabaseRecord> findOneByCountryNameAndProvinceAndDate(String countryName, String province, LocalDate date);
     List<DatabaseRecord> findAllByCountryNameAndDateBefore(String countryName, LocalDate date);
+    List<DatabaseRecord> findAllByCountryNameAndDateAfterOrderByDateAsc(String countryName, LocalDate date);
 
     List<DatabaseRecord> findAllByDate(LocalDate date);
 
